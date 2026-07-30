@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------
+  # Servicio 1: Base de Datos PostgreSQL
+  # ----------------------------------------------------
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: postgres-db-container
+    restart: always
+    environment:
+      POSTGRES_DB: sistema_pagos_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ----------------------------------------------------
+  # Servicio 2: Tu API de Spring Boot
+  # ----------------------------------------------------
+  system-pagos-api:
+    build: .
+    container_name: system-pagos-api-container
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/sistema_pagos_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgrespassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - postgres-db
+
+# ----------------------------------------------------
+# Volumen persistente para no perder los datos al apagar
+# ----------------------------------------------------
+volumes:
+  postgres_data:
