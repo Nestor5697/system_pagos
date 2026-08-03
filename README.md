@@ -22,5 +22,5 @@ API RESTful para la gestión y procesamiento de pagos desarrollada con **Spring 
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/Nestor5697/system_pagos.git](https://github.com/Nestor5697/system_pagos.git)
+   git clone https://github.com/Nestor5697/system_pagos
    cd system_pagos
